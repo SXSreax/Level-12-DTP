@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')   # Home page route(showing welcome message, some heros randomly selected from alll heros, and some heros from favorites if login, ai chator)
 def home():
-    return "Welcome to Marvel Rival Website!"''
+    return "Welcome to Marvel Rival Website! test"''
 
 @app.route('/heroes')  #page showing all heros in the game, pictures, names, and basic details about them
 def heroes():
