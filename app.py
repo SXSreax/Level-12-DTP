@@ -1,4 +1,9 @@
-from flask import Flask
+from flask import Flask, render_template
+import sqlite3
+
+conn = sqlite3.connect('databases/Heroes.db', check_same_thread=False)
+cursor = conn.cursor()
+# Create a table for heroes if it doesn't exist
 
 app = Flask(__name__)
 
@@ -8,7 +13,11 @@ def home():
 
 @app.route('/heroes')  #page showing all heros in the game, pictures, names, and basic details about them
 def heroes():
-    return "List of Marvel Heroes"
+    cursor.execute("SELECT image_url FROM Hero WHERE id = 31")
+    heroes = cursor.fetchall()
+    # Clean up the fetched data to extract the image URL
+    image_urls = [row[0] for row in heroes]  # Assuming image_url is in the first column
+    return render_template('Heroes.html', message=image_urls)# Assuming you have a heroes.html template
 
 @app.route('/hero/<id>')  #page showing details of a hero, including their powers, abilities, and backstory
 def hero(id):
