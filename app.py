@@ -13,15 +13,28 @@ def home():
 
 @app.route('/heroes')  #page showing all heros in the game, pictures, names, and basic details about them
 def heroes():
-    cursor.execute("SELECT image_url FROM Hero WHERE id = 31")
+    cursor.execute("SELECT image_url FROM Hero")
     heroes = cursor.fetchall()
     # Clean up the fetched data to extract the image URL
     image_urls = [row[0] for row in heroes]  # Assuming image_url is in the first column
     return render_template('Heroes.html', message=image_urls)# Assuming you have a heroes.html template
 
-@app.route('/hero/<id>')  #page showing details of a hero, including their powers, abilities, and backstory
+@app.route('/hero/<id>')  # Page showing details of a hero, including their powers, abilities, and backstory
 def hero(id):
-    return f"Details of Hero with ID: {id}"
+    # Query to fetch the hero's name
+    cursor.execute("SELECT name FROM Hero WHERE id = ?", (id,))
+    hero = cursor.fetchone()
+
+    # Query to fetch the skins image URLs for the hero
+    cursor.execute("SELECT skin_image_url FROM Skins WHERE hero_id = ?", (id,))
+    skins = cursor.fetchall()
+    skin_urls = [row[0] for row in skins]  # Extract the image URLs into a list
+
+    if hero:
+        # Pass both the hero's name and the list of image URLs to the template
+        return render_template('hero.html', Hero_name=hero[0], image_urls=skin_urls)
+    else:
+        return "Hero not found", 404
 
 @app.route('/compare/<id1>/<id2>')  #page allowing users to compare two heroes side by side, showing their stats and abilities
 def compare(id1, id2):

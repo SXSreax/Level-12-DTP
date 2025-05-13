@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Details</title>
+</head>
+<body>
+    <h1>{{ Hero_name }}</h1> <!-- Display the hero's name -->
+
+    <!-- Loop through the list of image URLs and display each image -->
+    {% for image_url in image_urls %}
+    <img src="{{ image_url }}" alt="Hero Image" style="width:200px;height:auto;">
+    {% endfor %}
+</body>
+</html>
