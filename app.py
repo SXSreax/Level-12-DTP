@@ -21,20 +21,33 @@ def heroes():
 
 @app.route('/hero/<id>')  # Page showing details of a hero, including their powers, abilities, and backstory
 def hero(id):
-    # Query to fetch the hero's name
-    cursor.execute("SELECT name FROM Hero WHERE id = ?", (id,))
+    # Fetch hero details
+    cursor.execute("SELECT name, image_url, description FROM Hero WHERE id = ?", (id,))
     hero = cursor.fetchone()
 
-    # Query to fetch the skins image URLs for the hero
-    cursor.execute("SELECT skin_image_url FROM Skins WHERE hero_id = ?", (id,))
-    skins = cursor.fetchall()
-    skin_urls = [row[0] for row in skins]  # Extract the image URLs into a list
-
-    if hero:
-        # Pass both the hero's name and the list of image URLs to the template
-        return render_template('hero.html', Hero_name=hero[0], image_urls=skin_urls)
-    else:
+    if not hero:
         return "Hero not found", 404
+
+    hero_name = hero[0]
+    hero_avatar = hero[1]
+    hero_description = hero[2]
+
+    # Fetch abilities
+    cursor.execute("SELECT name, description FROM Abilities WHERE hero_id = ?", (id,))
+    abilities = cursor.fetchall()  # List of (name, description)
+
+    # Fetch skins
+    cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id,))
+    skins = cursor.fetchall()  # List of (skin_name, skin_image_url)
+
+    return render_template(
+        'hero.html',
+        hero_name=hero_name,
+        hero_avatar=hero_avatar,
+        hero_description=hero_description,
+        abilities=abilities,
+        skins=skins
+    )
 
 @app.route('/compare/<id1>/<id2>')  #page allowing users to compare two heroes side by side, showing their stats and abilities
 def compare(id1, id2):

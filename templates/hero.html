@@ -3,14 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Details</title>
+    <title>{{ hero_name }} - Details</title>
 </head>
 <body>
-    <h1>{{ Hero_name }}</h1> <!-- Display the hero's name -->
+    <h1>{{ hero_name }}</h1>
+    <img src="{{ hero_avatar }}" alt="{{ hero_name }} Avatar" style="width:200px;height:auto;">
+    <p>{{ hero_description }}</p>
 
-    <!-- Loop through the list of image URLs and display each image -->
-    {% for image_url in image_urls %}
-    <img src="{{ image_url }}" alt="Hero Image" style="width:200px;height:auto;">
-    {% endfor %}
+    <h2>Abilities</h2>
+    <ul>
+        {% for ability in abilities %}
+            <li>
+                <strong>{{ ability[0] }}</strong>: {{ ability[1] }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Skins</h2>
+    <ul>
+        {% for skin in skins %}
+            <li>
+                <strong>{{ skin[0] }}</strong><br>
+                <img src="{{ skin[1] }}" alt="{{ skin[0] }}" style="width:150px;height:auto;">
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
