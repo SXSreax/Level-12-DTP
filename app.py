@@ -33,7 +33,7 @@ def hero(id):
     hero_description = hero[2]
 
     # Fetch abilities
-    cursor.execute("SELECT name, description FROM Abilities WHERE hero_id = ?", (id,))
+    cursor.execute("SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id,))
     abilities = cursor.fetchall()  # List of (name, description)
 
     # Fetch skins
