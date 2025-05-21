@@ -40,6 +40,8 @@ def hero(id):
     cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id,))
     skins = cursor.fetchall()  # List of (skin_name, skin_image_url)
 
+    print(hero_avatar)
+
     return render_template(
         'hero.html',
         hero_name=hero_name,
@@ -48,6 +50,7 @@ def hero(id):
         abilities=abilities,
         skins=skins
     )
+
 
 @app.route('/compare/<id1>/<id2>')  #page allowing users to compare two heroes side by side, showing their stats and abilities
 def compare(id1, id2):
