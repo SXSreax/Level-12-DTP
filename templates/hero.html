@@ -3,31 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page title uses the hero's name -->
     <title>{{ hero_name }} - Details</title>
+    <!-- Google Fonts for Oswald (titles) and Open Sans (text) -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald:700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+    <style>
+        /* Main dark theme styling */
+        body {
+            background: #111;
+            color: #f5c518; /* gold */
+            font-family: 'Open Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Title and subtitle styling */
+        h1, h2 {
+            font-family: 'Oswald', Arial, sans-serif;
+            color: #e53935; /* red */
+            letter-spacing: 2px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 8px #000, 0 0 10px #e53935;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 2px solid #bfa046; /* gold border */
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        /* Paragraph styling */
+        p {
+            color: #fff;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            text-align: center; /* Center the hero description */
+        }
+        /* List styling for abilities and skins */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: rgba(30, 30, 30, 0.8);
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #bfa046; /* gold accent */
+            color: #fff;
+            box-shadow: 0 2px 8px #000;
+        }
+        /* Highlighted text for ability/skin names */
+        strong {
+            color: #bfa046;
+            font-weight: 600;
+        }
+        /* Main hero avatar and skin images styling */
+        img {
+            display: block;
+            margin: 20px auto 20px auto;
+            border: 3px solid #bfa046;
+            border-radius: 12px;
+            background: #222;
+            box-shadow: 0 4px 16px #000;
+        }
+        /* Skin images in the skins list */
+        .skins-list {
+            display: flex;
+            flex-direction: row;      /* Arrange skins horizontally */
+            flex-wrap: wrap;          /* Allow wrapping to next line if needed */
+            justify-content: center;  /* Center the skins horizontally */
+            gap: 20px;                /* Space between skins */
+            padding: 0;
+            margin: 0;
+        }
+        .skins-list li {
+            width: 180px;             /* Set a fixed width for each skin block */
+            max-width: 180px;
+            text-align: center;
+            background: rgba(30, 30, 30, 0.8);
+            margin-bottom: 0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #bfa046;
+            color: #fff;
+            box-shadow: 0 2px 8px #000;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .skins-list img {
+            width: 120px;
+            margin: 10px 0 0 0;
+        }
+        /* Container for centering and background */
+        .container {
+            max-width: 1000px; /* Increased from 700px */
+            margin: 40px auto;
+            background: rgba(20, 20, 20, 0.98);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px #000;
+            padding: 40px 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ hero_name }}</h1>
-    <img src="{{ hero_avatar }}" alt="{{ hero_name }} Avatar" style="width:200px;height:auto;">
-    <img src="static\heroes\hulk.png">
-    <p>{{ hero_description }}</p>
+    <div class="container">
+        <!-- Hero Name -->
+        <h1>{{ hero_name }}</h1>
+        <!-- Hero Avatar Image -->
+        <img src="{{ hero_avatar }}" alt="{{ hero_name }} Avatar" style="width:200px;height:auto;">
+        <!-- Hero Description -->
+        <p>{{ hero_description }}</p>
 
-    <h2>Abilities</h2>
-    <ul>
-        {% for ability in abilities %}
-            <li>
-                <strong>{{ ability[0] }}</strong>: {{ ability[1] }}
-            </li>
-        {% endfor %}
-    </ul>
+        <!-- Abilities Section -->
+        <h2>Abilities</h2>
+        <ul>
+            {% for ability in abilities %}
+                <!-- Each ability: name and description -->
+                <li>
+                    <strong>{{ ability[0] }}</strong>: {{ ability[1] }}
+                </li>
+            {% endfor %}
+        </ul>
 
-    <h2>Skins</h2>
-    <ul>
-        {% for skin in skins %}
-            <li>
-                <strong>{{ skin[0] }}</strong><br>
-                <img src="{{ skin[1] }}" alt="{{ skin[0] }}" style="width:150px;height:auto;">
-            </li>
-        {% endfor %}
-    </ul>
+        <!-- Skins Section -->
+        <h2>Skins</h2>
+        <ul class="skins-list">
+            {% for skin in skins %}
+                <!-- Each skin: name and image -->
+                <li>
+                    <strong>{{ skin[0] }}</strong><br>
+                    <img src="{{ skin[1] }}" alt="{{ skin[0] }}">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
