@@ -112,6 +112,9 @@
     </style>
 </head>
 <body>
+    {% extends "base.html" %}
+    {% block title %}{{ hero_name }} - Details{% endblock %}
+    {% block content %}
     <div class="container">
         <!-- Hero Name -->
         <h1>{{ hero_name }}</h1>
@@ -143,5 +146,6 @@
             {% endfor %}
         </ul>
     </div>
+    {% endblock %}
 </body>
 </html>

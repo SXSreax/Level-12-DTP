@@ -9,15 +9,13 @@ app = Flask(__name__)
 
 @app.route('/')   # Home page route(showing welcome message, some heros randomly selected from alll heros, and some heros from favorites if login, ai chator)
 def home():
-    return "Welcome to Marvel Rival Website!"
+    return render_template('home.html')
 
 @app.route('/heroes')  #page showing all heros in the game, pictures, names, and basic details about them
 def heroes():
-    cursor.execute("SELECT image_url FROM Hero")
-    heroes = cursor.fetchall()
-    # Clean up the fetched data to extract the image URL
-    image_urls = [row[0] for row in heroes]  # Assuming image_url is in the first column
-    return render_template('Heroes.html', message=image_urls)# Assuming you have a heroes.html template
+    cursor.execute("SELECT id, image_url FROM Hero")
+    heroes = cursor.fetchall()  # List of (id, image_url)
+    return render_template('heroes.html', heroes=heroes)
 
 @app.route('/hero/<id>')  # Page showing details of a hero, including their powers, abilities, and backstory
 def hero(id):
