@@ -1,77 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Heroes</title>
     <!-- Google Fonts for Oswald (titles) and Open Sans (text) -->
-    <link href="https://fonts.googleapis.com/css?family=Oswald:700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: #111;
-            color: #f5c518;
-            font-family: 'Open Sans', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            font-family: 'Oswald', Arial, sans-serif;
-            color: #e53935;
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 8px #000, 0 0 10px #e53935;
-        }
-        .heroes-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            padding: 30px 0;
-        }
-        .hero-card {
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 14px;
-            box-shadow: 0 4px 16px #000;
-            border: 3px solid #bfa046;
-            padding: 20px 15px;
-            text-align: center;
-            width: 180px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .hero-card:hover {
-            transform: translateY(-8px) scale(1.04);
-            box-shadow: 0 8px 32px #e53935;
-            border-color: #e53935;
-        }
-        .hero-card img {
-            width: 120px;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            background: #222;
-            border: 2px solid #bfa046;
-            box-shadow: 0 2px 8px #000;
-        }
-    </style>
-</head>
-<body>
-    {% extends "base.html" %}
-    {% block title %}All Heroes{% endblock %}
-    {% block content %}
+    <link
+      href="https://fonts.googleapis.com/css?family=Oswald:700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Linking CSS file for heroes -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/heroes.css') }}"
+    />
+  </head>
+  <body>
+    {% extends "base.html" %} {% block title %}All Heroes{% endblock %} {% block
+    content %}
     <h1>All Heroes</h1>
     <div class="heroes-grid">
-        {% for hero in heroes %}
-        <a href="{{ url_for('hero', id=hero[0]) }}" style="text-decoration:none;">
-            <div class="hero-card">
-                <img src="{{ hero[1] }}" alt="Hero Image">
-            </div>
-        </a>
-        {% endfor %}
+      {% for hero in heroes %}
+      <a href="{{ url_for('hero', id=hero[0]) }}" style="text-decoration: none">
+        <div class="hero-card">
+          <img src="{{ hero[1] }}" alt="Hero Image" />
+        </div>
+      </a>
+      {% endfor %}
     </div>
     {% endblock %}
-</body>
+  </body>
 </html>

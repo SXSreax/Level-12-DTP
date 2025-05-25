@@ -1,70 +1,23 @@
-{% extends "base.html" %}
-{% block title %}Marvel Rival Website - Home{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Marvel Rival Website - Home{%
+endblock %} {% block content %}
+<!-- link CSS file for home -->
+<head>
+  <link
+    href="{{ url_for('static', filename='css/home.css') }}"
+    rel="stylesheet"
+  />
+</head>
 <div class="home-container">
-    <h1>Welcome to Marvel Rival Website!</h1>
-    <p class="subtitle">
-        Dive into the world of Marvel Rivals!<br>
-        Explore all heroes, compare their powers, and discover every skin.
-    </p>
-    <div class="home-actions">
-        <a href="{{ url_for('heroes') }}" class="home-btn">Browse All Heroes</a>
-        <a href="{{ url_for('favorites') }}" class="home-btn">Your Favorites</a>
-        <a href="{{ url_for('login') }}" class="home-btn">Login</a>
-        <a href="{{ url_for('signup') }}" class="home-btn">Sign Up</a>
-    </div>
+  <h1>Welcome to Marvel Rival Website!</h1>
+  <p class="subtitle">
+    Dive into the world of Marvel Rivals!<br />
+    Explore all heroes, compare their powers, and discover every skin.
+  </p>
+  <div class="home-actions">
+    <a href="{{ url_for('heroes') }}" class="home-btn">Browse All Heroes</a>
+    <a href="{{ url_for('favorites') }}" class="home-btn">Your Favorites</a>
+    <a href="{{ url_for('login') }}" class="home-btn">Login</a>
+    <a href="{{ url_for('signup') }}" class="home-btn">Sign Up</a>
+  </div>
 </div>
-<style>
-    .home-container {
-        max-width: 700px;
-        margin: 60px auto 0 auto;
-        background: rgba(20, 20, 20, 0.98);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px #000;
-        padding: 50px 30px 40px 30px;
-        text-align: center;
-    }
-    h1 {
-        font-family: 'Oswald', Arial, sans-serif;
-        color: #e53935;
-        font-size: 2.7em;
-        margin-bottom: 18px;
-        letter-spacing: 2px;
-        text-shadow: 2px 2px 8px #000, 0 0 10px #e53935;
-    }
-    .subtitle {
-        color: #f5c518;
-        font-size: 1.3em;
-        margin-bottom: 35px;
-        font-family: 'Open Sans', Arial, sans-serif;
-    }
-    .home-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 25px;
-        margin-top: 20px;
-    }
-    .home-btn {
-        background: #e53935;
-        color: #fff;
-        font-family: 'Oswald', Arial, sans-serif;
-        font-size: 1.1em;
-        padding: 14px 32px;
-        border-radius: 8px;
-        text-decoration: none;
-        border: none;
-        box-shadow: 0 2px 8px #000;
-        transition: background 0.2s, color 0.2s, transform 0.2s;
-        letter-spacing: 1px;
-        font-weight: bold;
-        outline: none;
-        display: inline-block;
-    }
-    .home-btn:hover {
-        background: #bfa046;
-        color: #111;
-        transform: translateY(-3px) scale(1.04);
-    }
-</style>
 {% endblock %}
