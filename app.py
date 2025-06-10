@@ -80,15 +80,15 @@ def compare(id1, id2):
 
 @app.route('/login')  #page for user login, including a form for entering username and password
 def login():
-    return "Login Page"
+    return render_template('login.html')
 
 @app.route('/signup')  #page for user signup, including a form for entering username, password, and email
 def signup():
-    return "Signup Page"
+    return render_template('sign_up.html') 
 
 @app.route('/favorites')  #page showing user's favorite heroes, allowing them to add or remove heroes from their favorites list
 def favorites():
-    return "List of Favorite Heroes"
+    return render_template('favorite.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
