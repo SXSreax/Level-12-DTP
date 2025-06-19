@@ -1,5 +1,13 @@
 from flask import Flask, render_template
 import sqlite3
+from routes.home import home_bp
+from routes.heroes import heroes_bp
+from routes.hero import hero_bp
+from routes.compare import compare_bp
+from routes.login import login_bp
+from routes.sign_up import sign_up_bp
+from routes.favorite import favorite_bp
+
 
 conn = sqlite3.connect('databases/Heroes.db', check_same_thread=False)
 cursor = conn.cursor()
@@ -7,88 +15,19 @@ cursor = conn.cursor()
 
 app = Flask(__name__)
 
-@app.route('/')   # Home page route(showing welcome message, some heros randomly selected from alll heros, and some heros from favorites if login, ai chator)
-def home():
-    return render_template('home.html')
+app.register_blueprint(home_bp)
 
-@app.route('/heroes')  #page showing all heros in the game, pictures, names, and basic details about them
-def heroes():
-    cursor.execute("SELECT id, image_url FROM Hero")
-    heroes = cursor.fetchall()  # List of (id, image_url)
-    return render_template('heroes.html', heroes=heroes)
+app.register_blueprint(heroes_bp)
 
-@app.route('/hero/<id>')  # Page showing details of a hero, including their powers, abilities, and backstory
-def hero(id):
-    # Fetch hero details
-    cursor.execute("SELECT name, image_url, description FROM Hero WHERE id = ?", (id,))
-    hero = cursor.fetchone()
+app.register_blueprint(hero_bp)
 
-    if not hero:
-        return "Hero not found", 404
+app.register_blueprint(compare_bp)
 
-    hero_name = hero[0]
-    hero_avatar = hero[1]
-    hero_description = hero[2]
+app.register_blueprint(login_bp)
 
-    # Fetch abilities
-    cursor.execute("SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id,))
-    abilities = cursor.fetchall()  # List of (name, description)
+app.register_blueprint(sign_up_bp)
 
-    # Fetch skins
-    cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id,))
-    skins = cursor.fetchall()  # List of (skin_name, skin_image_url)
+app.register_blueprint(favorite_bp)
 
-    print(hero_avatar)
-
-    return render_template(
-        'hero.html',
-        hero_name=hero_name,
-        hero_avatar=hero_avatar,
-        hero_description=hero_description,
-        abilities=abilities,
-        skins=skins
-    )
-
-
-@app.route('/compare/<id1>/<id2>')  #page allowing users to compare two heroes side by side, showing their stats and abilities
-def compare(id1, id2):
-    # Fetch hero 1 details
-    cursor.execute("SELECT name, image_url, description FROM Hero WHERE id = ?", (id1,))
-    h1 = cursor.fetchone()
-    cursor.execute("SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id1,))
-    h1_abilities = cursor.fetchall()
-    cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id1,))
-    h1_skins = cursor.fetchall()
-
-    # Fetch hero 2 details
-    cursor.execute("SELECT name, image_url, description FROM Hero WHERE id = ?", (id2,))
-    h2 = cursor.fetchone()
-    cursor.execute("SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id2,))
-    h2_abilities = cursor.fetchall()
-    cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id2,))
-    h2_skins = cursor.fetchall()
-
-    hero1 = {
-        "name": h1[0], "image_url": h1[1], "description": h1[2],
-        "abilities": h1_abilities, "skins": h1_skins
-    }
-    hero2 = {
-        "name": h2[0], "image_url": h2[1], "description": h2[2],
-        "abilities": h2_abilities, "skins": h2_skins
-    }
-    return render_template('compare.html', hero1=hero1, hero2=hero2)
-
-@app.route('/login')  #page for user login, including a form for entering username and password
-def login():
-    return render_template('login.html')
-
-@app.route('/signup')  #page for user signup, including a form for entering username, password, and email
-def signup():
-    return render_template('sign_up.html') 
-
-@app.route('/favorites')  #page showing user's favorite heroes, allowing them to add or remove heroes from their favorites list
-def favorites():
-    return render_template('favorite.html')
-
-if __name__ == '__main__':
+if __name__ == '__main__': # Run the Flask app
     app.run(debug=True)

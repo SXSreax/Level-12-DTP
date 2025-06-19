@@ -21,11 +21,11 @@
   </head>
   <body>
     <nav>
-      <a href="{{ url_for('home') }}">Home</a>
-      <a href="{{ url_for('heroes') }}">All Heroes</a>
-      <a href="{{ url_for('favorites') }}">Favorites</a>
-      <a href="{{ url_for('login') }}">Login</a>
-      <a href="{{ url_for('signup') }}">Signup</a>
+      <a href="{{ url_for('home.home') }}">Home</a>
+      <a href="{{ url_for('heroes.heroes') }}">All Heroes</a>
+      <a href="{{ url_for('favorite.favorite') }}">Favorites</a>
+      <a href="{{ url_for('login.login') }}">Login</a>
+      <a href="{{ url_for('signup.signup') }}">Signup</a>
     </nav>
     {% block content %}{% endblock %}
   </body>

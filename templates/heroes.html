@@ -24,8 +24,13 @@
     content %}
     <h1>All Heroes</h1>
     <div class="heroes-grid">
+      <!-- Loop through each hero and create a card -->
+      <!-- Each card links to the hero's detail page -->
       {% for hero in heroes %}
-      <a href="{{ url_for('hero', id=hero[0]) }}" style="text-decoration: none">
+      <a
+        href="{{ url_for('hero.hero', id=hero[0]) }}"
+        style="text-decoration: none"
+      >
         <div class="hero-card">
           <img src="{{ hero[1] }}" alt="Hero Image" />
         </div>
