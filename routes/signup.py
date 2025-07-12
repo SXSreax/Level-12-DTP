@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
 import hashlib
+import uuid  # Add this import
 
 sign_up_bp = Blueprint('signup', __name__)
 
@@ -16,6 +17,7 @@ def signup():
         email = request.form['email']
         password = request.form['password']
         hashed_pw = hashlib.sha256(password.encode()).hexdigest()
+        user_id = str(uuid.uuid4())  # Generate a unique user ID
         db = get_db()
         cursor = db.cursor()
         # Check if username or email exists
@@ -23,8 +25,11 @@ def signup():
         if cursor.fetchone():
             flash('Username or email already exists.')
             return redirect(url_for('signup.signup'))
-        # Insert new user
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_pw))
+        # Insert new user with user_id
+        cursor.execute(
+            "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)",
+            (user_id, username, email, hashed_pw)
+        )
         db.commit()
         db.close()
         flash('Sign up successful! Please log in.')
