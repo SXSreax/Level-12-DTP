@@ -4,7 +4,7 @@ import hashlib
 
 login_bp = Blueprint('login', __name__)
 
-def get_db():
+def get_db(): # getting the database connection
     conn = sqlite3.connect('databases/Heroes.db')
     conn.row_factory = sqlite3.Row
     return conn
@@ -13,6 +13,7 @@ def get_db():
 def login():
     if request.method == 'POST':
         username = request.form['username']
+        session['username'] = username
         password = request.form['password']
         hashed_pw = hashlib.sha256(password.encode()).hexdigest()
         db = get_db()

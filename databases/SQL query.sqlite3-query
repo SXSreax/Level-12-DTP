@@ -1,3 +1,0 @@
--- database: ./Heroes.db
-
-SELECT * FROM Hero;
