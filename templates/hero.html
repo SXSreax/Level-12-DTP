@@ -55,6 +55,14 @@
         </li>
         {% endfor %}
       </ul>
+
+      <!-- Add to Favorites Button -->
+      <form
+        method="POST"
+        action="{{ url_for('favorite.add_favorite', hero_id=hero_id) }}"
+      >
+        <button type="submit" class="favorite-btn">Add to Favorites</button>
+      </form>
     </div>
     {% endblock %}
   </body>

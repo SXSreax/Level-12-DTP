@@ -9,10 +9,27 @@
       href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <title>Your Favorites</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/heroes.css') }}"
+    />
   </head>
   <body>
-    hello this is a page that shows the user's favorite heroes. You can add or
-    remove heroes from your favorites list here.
+    <div class="favorites-container">
+      <h1>Your Favorite Heroes</h1>
+      <div class="heroes-grid">
+        {% if favorite_heroes %} {% for hero in favorite_heroes %}
+        <a href="{{ url_for('hero.hero', id=hero[0]) }}" class="hero-link">
+          <div class="hero-card">
+            <img src="{{ hero[2] }}" alt="{{ hero[1] }} Avatar" />
+            <div class="hero-name">{{ hero[1] }}</div>
+          </div>
+        </a>
+        {% endfor %} {% else %}
+        <p class="no-favorites">You have no favorite heroes yet.</p>
+        {% endif %}
+      </div>
+    </div>
   </body>
 </html>

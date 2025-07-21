@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
 import hashlib
-import uuid  # Add this import
+import uuid  
 
 sign_up_bp = Blueprint('signup', __name__)
 

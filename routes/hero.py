@@ -35,5 +35,6 @@ def hero(id):
         hero_avatar=hero_avatar,
         hero_description=hero_description,
         abilities=abilities,
-        skins=skins
+        skins=skins,
+        hero_id=id  
     )
