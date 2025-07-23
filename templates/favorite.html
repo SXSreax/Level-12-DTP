@@ -14,8 +14,16 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/heroes.css') }}"
     />
+    {% block head %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/favorite.css') }}"
+    />
+    {% endblock %}
   </head>
   <body>
+    {% extends "base.html" %} {% block title %}Your Favorites{% endblock %} {%
+    block content %}
     <div class="favorites-container">
       <h1>Your Favorite Heroes</h1>
       <div class="heroes-grid">
@@ -23,7 +31,6 @@
         <a href="{{ url_for('hero.hero', id=hero[0]) }}" class="hero-link">
           <div class="hero-card">
             <img src="{{ hero[2] }}" alt="{{ hero[1] }} Avatar" />
-            <div class="hero-name">{{ hero[1] }}</div>
           </div>
         </a>
         {% endfor %} {% else %}
@@ -31,5 +38,6 @@
         {% endif %}
       </div>
     </div>
+    {% endblock %}
   </body>
 </html>

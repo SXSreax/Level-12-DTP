@@ -1,23 +1,26 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session
 import sqlite3
-
-conn = sqlite3.connect('databases/Heroes.db', check_same_thread=False)
-cursor = conn.cursor()
 
 hero_bp = Blueprint('hero', __name__)
 
+def get_db():
+    conn = sqlite3.connect('databases/Heroes.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
 @hero_bp.route('/hero/<id>')  # Page showing details of a hero, including their powers, abilities, and backstory
 def hero(id):
-    # Fetch hero details
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("SELECT name, image_url, description FROM Hero WHERE id = ?", (id,))
-    hero = cursor.fetchone()
+    hero_details = cursor.fetchone()
 
-    if not hero:
+    if hero_details:
+        hero_name = hero_details[0]
+        hero_avatar = hero_details[1]
+        hero_description = hero_details[2]
+    else:
         return "Hero not found", 404
-
-    hero_name = hero[0]
-    hero_avatar = hero[1]
-    hero_description = hero[2]
 
     # Fetch abilities
     cursor.execute("SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id,))
@@ -27,8 +30,13 @@ def hero(id):
     cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id,))
     skins = cursor.fetchall()  # List of (skin_name, skin_image_url)
 
-    print(hero_avatar)
-
+    is_favorite = False
+    user_id = session.get('user_id')
+    if user_id:
+        cursor.execute("SELECT 1 FROM Favorite WHERE user_id = ? AND hero_id = ?", (user_id, id))
+        if cursor.fetchone():
+            is_favorite = True
+    db.close()
     return render_template(
         'hero.html',
         hero_name=hero_name,
@@ -36,5 +44,6 @@ def hero(id):
         hero_description=hero_description,
         abilities=abilities,
         skins=skins,
-        hero_id=id  
+        hero_id=id,
+        is_favorite=is_favorite
     )

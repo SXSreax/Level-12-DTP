@@ -24,16 +24,34 @@
     {% extends "base.html" %} {% block title %}{{ hero_name }} - Details{%
     endblock %} {% block content %}
     <div class="container">
-      <!-- Hero Name -->
-      <h1>{{ hero_name }}</h1>
-      <!-- Hero Avatar Image -->
-      <img
-        src="{{ hero_avatar }}"
-        alt="{{ hero_name }} Avatar"
-        style="width: 200px; height: auto"
-      />
-      <!-- Hero Description -->
-      <p>{{ hero_description }}</p>
+      <div class="hero-details" style="text-align: center">
+        <!-- Hero Name -->
+        <h1>{{ hero_name }}</h1>
+        <!-- Hero Avatar Image -->
+        <img
+          src="{{ hero_avatar }}"
+          alt="{{ hero_name }} Avatar"
+          class="hero-avatar"
+          style="display: block; margin: 0 auto"
+        />
+        <!-- Hero Description -->
+        <p style="text-align: center">{{ hero_description }}</p>
+
+        <!-- Favorite button goes here, right under the description -->
+        <div style="margin: 20px 0">
+          {% if is_favorite %}
+          <button class="favorite-btn added" disabled>ADDED</button>
+          {% else %}
+          <form
+            method="POST"
+            action="{{ url_for('favorite.add_favorite', hero_id=hero_id) }}"
+            style="display: inline-block"
+          >
+            <button type="submit" class="favorite-btn">Add to Favorites</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
 
       <!-- Abilities Section -->
       <h2>Abilities</h2>
@@ -55,14 +73,6 @@
         </li>
         {% endfor %}
       </ul>
-
-      <!-- Add to Favorites Button -->
-      <form
-        method="POST"
-        action="{{ url_for('favorite.add_favorite', hero_id=hero_id) }}"
-      >
-        <button type="submit" class="favorite-btn">Add to Favorites</button>
-      </form>
     </div>
     {% endblock %}
   </body>
