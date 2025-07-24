@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block title %}Compare Heroes{% endblock %} {% block
+head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/compare_select.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="compare-container">
+  <h1>Compare Heroes</h1>
+  <form method="POST" class="compare-form">
+    <div class="compare-select-box">
+      <select name="hero1" required>
+        <option value="" disabled selected>Select Hero 1</option>
+        {% for hero in heroes %}
+        <option value="{{ hero[0] }}">{{ hero[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="compare-btn-box">
+      <button type="submit" class="compare-btn">Compare</button>
+    </div>
+    <div class="compare-select-box">
+      <select name="hero2" required>
+        <option value="" disabled selected>Select Hero 2</option>
+        {% for hero in heroes %}
+        <option value="{{ hero[0] }}">{{ hero[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+</div>
+{% endblock %}

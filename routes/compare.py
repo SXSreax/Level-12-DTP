@@ -1,13 +1,31 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for
 import sqlite3
-
-conn = sqlite3.connect('databases/Heroes.db', check_same_thread=False)
-cursor = conn.cursor()
 
 compare_bp = Blueprint('compare', __name__)
 
-@compare_bp.route('/compare/<id1>/<id2>')  #page allowing users to compare two heroes side by side, showing their stats and abilities
-def compare(id1, id2):
+def get_db():
+    conn = sqlite3.connect('databases/Heroes.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@compare_bp.route('/compare', methods=['GET', 'POST'])
+def compare_select():
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT id, name FROM Hero")
+    heroes = cursor.fetchall()
+    db.close()
+
+    if request.method == 'POST':
+        id1 = request.form.get('hero1')
+        id2 = request.form.get('hero2')
+        return redirect(url_for('compare.compare_result', id1=id1, id2=id2))
+    return render_template('compare_select.html', heroes=heroes)
+
+@compare_bp.route('/compare/<id1>/<id2>')
+def compare_result(id1, id2):
+    db = get_db()
+    cursor = db.cursor()
     # Fetch hero 1 details
     cursor.execute("SELECT name, image_url, description FROM Hero WHERE id = ?", (id1,))
     h1 = cursor.fetchone()
@@ -23,6 +41,7 @@ def compare(id1, id2):
     h2_abilities = cursor.fetchall()
     cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id2,))
     h2_skins = cursor.fetchall()
+    db.close()
 
     hero1 = {
         "name": h1[0], "image_url": h1[1], "description": h1[2],
