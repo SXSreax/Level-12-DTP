@@ -29,5 +29,91 @@
       <a href="{{ url_for('signup.signup') }}">Signup</a>
     </nav>
     {% block content %}{% endblock %}
+
+    <!-- AI Chat Widget -->
+    <div id="ai-chat-widget">
+      <div id="ai-chat-minimized" onclick="expandChat()">
+        <span>💬</span>
+      </div>
+      <div id="ai-chat-expanded" style="display: none">
+        <div id="ai-chat-header">
+          <span>AI Chat</span>
+          <button onclick="minimizeChat()">_</button>
+          <button onclick="closeChat()">×</button>
+        </div>
+        <div id="ai-chat-messages"></div>
+        <form id="ai-chat-form" onsubmit="sendMessage(event)">
+          <input
+            type="text"
+            id="ai-chat-input"
+            placeholder="Ask me anything..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      function expandChat() {
+        document.getElementById("ai-chat-minimized").style.display = "none";
+        document.getElementById("ai-chat-expanded").style.display = "flex";
+      }
+      function minimizeChat() {
+        document.getElementById("ai-chat-expanded").style.display = "none";
+        document.getElementById("ai-chat-minimized").style.display = "flex";
+      }
+      function closeChat() {
+        document.getElementById("ai-chat-expanded").style.display = "none";
+        document.getElementById("ai-chat-minimized").style.display = "flex";
+      }
+      function sendMessage(event) {
+        event.preventDefault();
+        const input = document.getElementById("ai-chat-input");
+        const messagesContainer = document.getElementById("ai-chat-messages");
+        const userMsg = input.value.trim();
+
+        if (!userMsg) return; // Don't send empty messages
+
+        messagesContainer.innerHTML += `<div><b>You:</b> ${userMsg}</div>`;
+        input.value = "";
+        // Show loading message
+        const loadingId = `loading-${Date.now()}`;
+        messagesContainer.innerHTML += `<div id="${loadingId}"><b>AI:</b> <i>Thinking...</i></div>`;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        fetch("/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userMsg: userMsg }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              // Throw an error to be caught by the .catch block
+              throw new Error(
+                `Network response was not ok, status: ${response.status}`
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Replace loading message with actual AI response
+            const loadingElement = document.getElementById(loadingId);
+            if (loadingElement) {
+              loadingElement.innerHTML = `<b>AI:</b> ${data.message}`;
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+          })
+          .catch((error) => {
+            const loadingElement = document.getElementById(loadingId);
+            if (loadingElement) {
+              loadingElement.innerHTML = `<b>AI:</b> <i>Sorry, an error occurred. Please try again.</i>`;
+              console.error("Error during fetch:", error);
+            }
+          });
+      }
+    </script>
   </body>
 </html>
