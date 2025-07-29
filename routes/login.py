@@ -30,3 +30,9 @@ def login():
             flash('Invalid username or password.')
             return redirect(url_for('login.login'))
     return render_template('login.html')
+
+@login_bp.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out.')
+    return redirect(url_for('login.login'))
