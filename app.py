@@ -8,6 +8,7 @@ from routes.login import login_bp
 from routes.signup import sign_up_bp
 from routes.favorite import favorite_bp
 from routes.chat import chat_bp
+from routes.error_handlers import error_bp
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -30,5 +31,8 @@ app.register_blueprint(favorite_bp)
 
 app.register_blueprint(chat_bp)
 
+app.register_blueprint(error_bp)
+
 if __name__ == '__main__': # Run the Flask app
+    # app.run(debug=True)
     app.run(debug=True)
