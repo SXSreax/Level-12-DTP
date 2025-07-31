@@ -1,1 +1,7 @@
 Flask
+sqlite3
+OpenAI
+requests
+jinja2
+logging
+traceback
