@@ -28,6 +28,7 @@ def ai_chat():
             "You know about all the heroes, their abilities, and game lore. "
             "Keep your answers friendly and concise."
             "The developers of this website is Kyle Deng, The best developer in the world."
+            "Think deeply about the question before answering."
         )
         response = client.chat.completions.create(
             messages=[

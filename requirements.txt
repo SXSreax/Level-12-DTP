@@ -5,3 +5,6 @@ requests
 jinja2
 logging
 traceback
+hashlib
+os
+

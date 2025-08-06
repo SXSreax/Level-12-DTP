@@ -20,14 +20,30 @@
     {% block head %}{% endblock %}
   </head>
   <body>
-    <nav>
-      <a href="{{ url_for('home.home') }}">Home</a>
-      <a href="{{ url_for('heroes.heroes') }}">All Heroes</a>
-      <a href="{{ url_for('favorite.favorite') }}">Favorites</a>
-      <a href="{{ url_for('compare.compare_select') }}">Compare</a>
-      <a href="{{ url_for('login.login') }}">Login</a>
-      <a href="{{ url_for('signup.signup') }}">Signup</a>
-      <a href="{{ url_for('login.logout') }}">Logout</a>
+    <nav class="main-nav">
+      <div class="container">
+        <div class="nav-links">
+          <a href="{{ url_for('home.home') }}">Home</a>
+          <a href="{{ url_for('heroes.heroes') }}">All Heroes</a>
+          <a href="{{ url_for('favorite.favorite') }}">Favorites</a>
+          <a href="{{ url_for('compare.compare_select') }}">Compare</a>
+        </div>
+        <div class="nav-profile-container">
+          <img
+            src="{{ url_for('static', filename='images/default.png') }}"
+            alt="Profile"
+            class="nav-profile-img"
+            onclick="toggleProfileDropdown()"
+          />
+          <div id="profile-dropdown" class="profile-dropdown">
+            <a href="{{ url_for('user.signup') }}">Settings</a>
+            <a href="{{ url_for('user.signup') }}">User Page</a>
+            <a href="{{ url_for('login.login') }}">Login</a>
+            <a href="{{ url_for('signup.signup') }}">Sign Up</a>
+            <a href="{{ url_for('login.logout') }}">Logout</a>
+          </div>
+        </div>
+      </div>
     </nav>
     {% block content %}{% endblock %}
 
@@ -115,6 +131,19 @@
             }
           });
       }
+      function toggleProfileDropdown() {
+        const dropdown = document.getElementById("profile-dropdown");
+        dropdown.style.display =
+          dropdown.style.display === "block" ? "none" : "block";
+      }
+      window.onclick = function (event) {
+        if (!event.target.matches(".nav-profile-img")) {
+          var dropdown = document.getElementById("profile-dropdown");
+          if (dropdown && dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+          }
+        }
+      };
     </script>
   </body>
 </html>

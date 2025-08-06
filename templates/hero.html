@@ -1,79 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Page title uses the hero's name -->
-    <title>{{ hero_name }} - Details</title>
-    <!-- Google Fonts for Oswald (titles) and Open Sans (text) -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Oswald:700&display=swap"
-      rel="stylesheet"
+{% extends "base.html" %} {% block title %}{{ hero_name }} - Details{% endblock
+%} {% block head %}
+<link
+  href="https://fonts.googleapis.com/css?family=Oswald:700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hero.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container">
+  <div class="hero-details" style="text-align: center">
+    <!-- Hero Name -->
+    <h1>{{ hero_name }}</h1>
+    <!-- Hero Avatar Image -->
+    <img
+      src="{{ hero_avatar }}"
+      alt="{{ hero_name }} Avatar"
+      class="hero-avatar"
+      style="display: block; margin: 0 auto"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap"
-      rel="stylesheet"
-    />
-    <!-- linking css file for hero -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/hero.css') }}"
-    />
-  </head>
-  <body>
-    {% extends "base.html" %} {% block title %}{{ hero_name }} - Details{%
-    endblock %} {% block content %}
-    <div class="container">
-      <div class="hero-details" style="text-align: center">
-        <!-- Hero Name -->
-        <h1>{{ hero_name }}</h1>
-        <!-- Hero Avatar Image -->
-        <img
-          src="{{ hero_avatar }}"
-          alt="{{ hero_name }} Avatar"
-          class="hero-avatar"
-          style="display: block; margin: 0 auto"
-        />
-        <!-- Hero Description -->
-        <p style="text-align: center">{{ hero_description }}</p>
+    <!-- Hero Description -->
+    <p style="text-align: center">{{ hero_description }}</p>
 
-        <!-- Favorite button goes here, right under the description -->
-        <div style="margin: 20px 0">
-          {% if is_favorite %}
-          <button class="favorite-btn added" disabled>ADDED</button>
-          {% else %}
-          <form
-            method="POST"
-            action="{{ url_for('favorite.add_favorite', hero_id=hero_id) }}"
-            style="display: inline-block"
-          >
-            <button type="submit" class="favorite-btn">Add to Favorites</button>
-          </form>
-          {% endif %}
-        </div>
-      </div>
-
-      <!-- Abilities Section -->
-      <h2>Abilities</h2>
-      <ul>
-        {% for ability in abilities %}
-        <!-- Each ability: name and description -->
-        <li><strong>{{ ability[0] }}</strong>: {{ ability[1] }}</li>
-        {% endfor %}
-      </ul>
-
-      <!-- Skins Section -->
-      <h2>Skins</h2>
-      <ul class="skins-list">
-        {% for skin in skins %}
-        <!-- Each skin: name and image -->
-        <li>
-          <strong>{{ skin[0] }}</strong><br />
-          <img src="{{ skin[1] }}" alt="{{ skin[0] }}" />
-        </li>
-        {% endfor %}
-      </ul>
+    <!-- Favorite button goes here, right under the description -->
+    <div style="margin: 20px 0">
+      {% if is_favorite %}
+      <button class="favorite-btn added" disabled>ADDED</button>
+      {% else %}
+      <form
+        method="POST"
+        action="{{ url_for('favorite.add_favorite', hero_id=hero_id) }}"
+        style="display: inline-block"
+      >
+        <button type="submit" class="favorite-btn">Add to Favorites</button>
+      </form>
+      {% endif %}
     </div>
-    {% endblock %}
-  </body>
-</html>
+
+    <!-- Abilities Section -->
+    <h2>Abilities</h2>
+    <ul>
+      {% for ability in abilities %}
+      <li><strong>{{ ability[0] }}</strong>: {{ ability[1] }}</li>
+      {% endfor %}
+    </ul>
+
+    <!-- Skins Section -->
+    <h2>Skins</h2>
+    <ul class="skins-list">
+      {% for skin in skins %}
+      <li>
+        <strong>{{ skin[0] }}</strong><br />
+        <img src="{{ skin[1] }}" alt="{{ skin[0] }}" />
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
