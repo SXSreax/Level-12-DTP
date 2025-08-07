@@ -52,15 +52,6 @@ strong {
   color: #bfa046;
   font-weight: 600;
 }
-/* Main hero avatar and skin images styling */
-img {
-  display: block;
-  margin: 20px auto 20px auto;
-  border: 3px solid #bfa046;
-  border-radius: 12px;
-  background: #222;
-  box-shadow: 0 4px 16px #000;
-}
 /* Skin images in the skins list */
 .skins-list {
   display: flex;
@@ -118,11 +109,12 @@ img {
   color: #111;
   cursor: default;
 }
-/* Container padding adjustment */
-.container {
-  padding-top: 0px;
+.hero-avatar,
+.skins-list img {
+  display: block;
+  margin: 20px auto 20px auto;
+  border: 3px solid #bfa046;
+  border-radius: 12px;
+  background: #222;
+  box-shadow: 0 4px 16px #000;
 }
-nav {
-  padding: 0px 0;
-}
-/* Responsive adjustments */

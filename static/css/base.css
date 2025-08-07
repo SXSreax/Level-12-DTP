@@ -109,55 +109,81 @@ nav a:hover {
   top: 0;
   z-index: 100;
 }
-.container {
-  max-width: 900px;
-  margin: 0 auto;
+.main-nav-bar {
+  width: 100%;
+  background: #1a1a1a;
+  padding: 4px 0 2px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-outer-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+.nav-side {
+  flex: 1;
 }
 .nav-links {
   display: flex;
   gap: 40px;
   justify-content: center;
-  flex: 1;
+  flex: 2;
+  margin-left: 24px;
 }
 .nav-profile-container {
   display: flex;
   align-items: center;
-  margin-left: 40px;
+  justify-content: flex-end;
+  flex: 1;
+  margin-right: 18px;
 }
 .nav-profile-img {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  object-fit: cover;
   border: 2px solid #bfa046;
-  cursor: pointer;
   background: #222;
-  display: block;
+  box-shadow: 0 2px 8px #000;
+  cursor: pointer;
 }
+/* Optional: Style the dropdown */
 .profile-dropdown {
   display: none;
   position: absolute;
-  top: 54px;
   right: 0;
+  top: 60px;
   background: #222;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px #000;
-  min-width: 160px;
+  border: 1px solid #bfa046;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #000;
+  min-width: 150px;
   z-index: 1000;
-  flex-direction: column;
-  padding: 10px 0;
 }
-.profile-dropdown a {
-  color: #f5c518;
-  padding: 12px 24px;
-  text-decoration: none;
+
+.profile-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown-wrapper:hover .profile-dropdown,
+.profile-dropdown-wrapper:focus-within .profile-dropdown {
   display: block;
-  font-family: "Oswald", Arial, sans-serif;
-  font-size: 1.1em;
-  transition: background 0.2s, color 0.2s;
+}
+
+.profile-dropdown a {
+  display: block;
+  color: #fff;
+  padding: 10px 16px;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+}
+.profile-dropdown a:last-child {
+  border-bottom: none;
 }
 .profile-dropdown a:hover {
   background: #bfa046;
