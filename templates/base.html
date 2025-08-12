@@ -32,14 +32,14 @@
         <div class="nav-profile-container">
           <div class="profile-dropdown-wrapper">
             <img
-              src="{{ url_for('static', filename='images/default.png') }}"
+              src="{{ url_for('static', filename=profile_image_url if profile_image_url else 'images/default.png') }}"
               alt="Profile"
               class="nav-profile-img"
               tabindex="0"
               onclick="toggleProfileDropdown()"
             />
             <div id="profile-dropdown" class="profile-dropdown">
-              <a href="{{ url_for('user.signup') }}">User Page</a>
+              <a href="{{ url_for('user.user_page') }}">User Page</a>
               <a href="{{ url_for('login.login') }}">Login</a>
               <a href="{{ url_for('signup.signup') }}">Sign Up</a>
               <a href="{{ url_for('login.logout') }}">Logout</a>

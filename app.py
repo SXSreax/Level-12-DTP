@@ -10,6 +10,7 @@ from routes.favorite import favorite_bp
 from routes.chat import chat_bp
 from routes.error_handlers import error_bp
 from routes.user import user_bp
+from routes.context_processors import inject_profile_image
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -35,6 +36,8 @@ app.register_blueprint(chat_bp)
 app.register_blueprint(error_bp)
 
 app.register_blueprint(user_bp)
+
+app.context_processor(inject_profile_image)
 
 if __name__ == '__main__': # Run the Flask app
     # app.run(debug=True)

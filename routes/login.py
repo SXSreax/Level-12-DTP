@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
 import hashlib
+import werkzeug.security
 
 login_bp = Blueprint('login', __name__)
 
@@ -13,15 +14,13 @@ def get_db(): # getting the database connection
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        session['username'] = username
         password = request.form['password']
-        hashed_pw = hashlib.sha256(password.encode()).hexdigest()
         db = get_db()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, hashed_pw))
+        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
         user = cursor.fetchone()
         db.close()
-        if user:
+        if user and werkzeug.security.check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = user['username']
             flash('Login successful!')

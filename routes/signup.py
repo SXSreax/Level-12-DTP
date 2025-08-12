@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
-import hashlib
 import uuid  
+import werkzeug.security
 
 sign_up_bp = Blueprint('signup', __name__)
 
@@ -16,7 +16,7 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        hashed_pw = hashlib.sha256(password.encode()).hexdigest()
+        hashed_pw = werkzeug.security.generate_password_hash(password)
         user_id = str(uuid.uuid4())  # Generate a unique user ID
         db = get_db()
         cursor = db.cursor()
