@@ -16,16 +16,33 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+
+        # Username: at least 2 letters or numbers, only letters and numbers
+        if len(username) < 2 or not username.isalnum():
+            flash('Username must be at least 2 letters or numbers, and contain only letters and numbers.')
+            return redirect(url_for('signup.signup'))
+
+        # Email: must contain @ before .
+        if '@' not in email or '.' not in email or email.index('@') > email.index('.'):
+            flash('Email must contain "@" before "."')
+            return redirect(url_for('signup.signup'))
+
+        # Password: at least 8 chars, must contain both letters and numbers, only letters and numbers
+        if (len(password) < 8 or
+            not password.isalnum() or
+            not any(c.isalpha() for c in password) or
+            not any(c.isdigit() for c in password)):
+            flash('Password must be at least 8 characters, contain both letters and numbers, and have no spaces or special characters.')
+            return redirect(url_for('signup.signup'))
+
         hashed_pw = werkzeug.security.generate_password_hash(password)
-        user_id = str(uuid.uuid4())  # Generate a unique user ID
+        user_id = str(uuid.uuid4())
         db = get_db()
         cursor = db.cursor()
-        # Check if username or email exists
         cursor.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
         if cursor.fetchone():
             flash('Username or email already exists.')
             return redirect(url_for('signup.signup'))
-        # Insert new user with user_id
         cursor.execute(
             "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)",
             (user_id, username, email, hashed_pw)

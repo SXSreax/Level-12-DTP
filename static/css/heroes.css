@@ -46,3 +46,20 @@ h1 {
   border: 2px solid #bfa046;
   box-shadow: 0 2px 8px #000;
 }
+.filter-btn {
+  padding: 10px 32px;
+  border-radius: 8px;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  font-family: "Oswald", Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.25em; /* Match home page button size */
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  background: #f5c518; /* Home page yellow */
+  color: #111; /* Home page black text */
+}

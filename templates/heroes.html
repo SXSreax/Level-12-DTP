@@ -41,7 +41,7 @@
         <option value="{{ t }}" {% if filter_type == t %}selected{% endif %}>{{ t }}</option>
         {% endfor %}
       </select>
-      <button type="submit" style="padding: 8px 24px; border-radius: 6px; background: #e53935; color: #fff; border: none; font-family: 'Oswald', Arial, sans-serif; font-weight: bold;">Filter</button>
+      <button type="submit" class="filter-btn">Filter</button>
     </form>
     <div class="heroes-grid">
       {% for hero in heroes %}
