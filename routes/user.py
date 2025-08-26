@@ -9,6 +9,12 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @user_bp.route('/user', methods=['GET', 'POST'])
 def user_page():
     if 'user_id' not in session:
@@ -28,11 +34,14 @@ def user_page():
         profile_image_url = None
 
         # Handle profile image upload
-        if profile_pic and profile_pic.filename:
+        if profile_pic and allowed_file(profile_pic.filename):
             filename = werkzeug.utils.secure_filename(f"user_{session['user_id']}_{profile_pic.filename}")
             filepath = f"static/images/{filename}"
             profile_pic.save(filepath)
             profile_image_url = f"images/{filename}"
+        else:
+            if profile_pic and profile_pic.filename:
+                flash("Only image files (png, jpg, jpeg, gif) are allowed.", "error")
 
         # Username/email/profile image update
         if username and email:

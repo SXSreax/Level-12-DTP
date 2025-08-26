@@ -30,15 +30,15 @@
           <a href="{{ url_for('compare.compare_select') }}">Compare</a>
         </div>
         <div class="nav-profile-container">
-          <div class="profile-dropdown-wrapper">
+          <div class="profile-dropdown-wrapper" id="profileDropdownWrapper">
             <img
-              src="{{ url_for('static', filename=profile_image_url if profile_image_url else 'images/default.png') }}"
+              src="{{ url_for('static', filename=profile_image_url) }}"
               alt="Profile"
               class="nav-profile-img"
               tabindex="0"
               onclick="toggleProfileDropdown()"
             />
-            <div id="profile-dropdown" class="profile-dropdown">
+            <div id="profileDropdown" class="profile-dropdown">
               <a href="{{ url_for('user.user_page') }}">User Page</a>
               <a href="{{ url_for('login.login') }}">Login</a>
               <a href="{{ url_for('signup.signup') }}">Sign Up</a>
@@ -147,6 +147,28 @@
           }
         }
       };
+    </script>
+    <script>
+      const wrapper = document.getElementById("profileDropdownWrapper");
+      const dropdown = document.getElementById("profileDropdown");
+      let hideTimeout;
+
+      function showDropdown() {
+        dropdown.style.display = "block";
+        clearTimeout(hideTimeout);
+      }
+
+      function hideDropdown() {
+        hideTimeout = setTimeout(() => {
+          dropdown.style.display = "none";
+        }, 500);
+      }
+
+      wrapper.addEventListener("mouseenter", showDropdown);
+      wrapper.addEventListener("mouseleave", hideDropdown);
+
+      dropdown.addEventListener("mouseenter", showDropdown);
+      dropdown.addEventListener("mouseleave", hideDropdown);
     </script>
   </body>
 </html>

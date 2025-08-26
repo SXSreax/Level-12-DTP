@@ -18,3 +18,7 @@ def handle_exception(e):
     from flask import current_app
     current_app.logger.error(f"Unhandled Exception: {e}\n{traceback.format_exc()}")
     return render_template("error.html", error=e), 500
+
+@error_bp.app_errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
