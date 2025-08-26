@@ -51,3 +51,14 @@ def add_favorite(hero_id):
         flash('Hero is already in your favorites.')
     db.close()
     return redirect(url_for('hero.hero', id=hero_id))
+
+@favorite_bp.route('/remove/<int:hero_id>', methods=['POST'])
+def remove_favorite(hero_id):
+    user_id = session.get('user_id')
+    if user_id:
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("DELETE FROM Favorite WHERE user_id=? AND hero_id=?", (user_id, hero_id))
+        db.commit()
+        db.close()
+    return redirect(request.referrer or url_for('favorite.favorite'))

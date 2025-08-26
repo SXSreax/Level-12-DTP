@@ -82,7 +82,7 @@ strong {
   width: 120px;
   margin: 10px 0 0 0;
 }
-/* Favorite button styling */
+
 .favorite-btn {
   background: #e53935;
   color: #fff;
@@ -103,12 +103,54 @@ strong {
   background: #bfa046;
   color: #111;
 }
-.favorite-btn.added,
-.favorite-btn:disabled {
+.added-btn {
+  background: #e53935;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1em;
+  font-family: "Oswald", Arial, sans-serif;
+  text-align: center;
+  cursor: default;
+  border: none;
+  transition: opacity 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.remove-btn {
   background: #bfa046;
   color: #111;
-  cursor: default;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1em;
+  font-family: "Oswald", Arial, sans-serif;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 115px;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.2s;
 }
+
+.favorite-btn-stack {
+  position: relative;
+  display: inline-block;
+  width: 115px; /* Set to the desired button width */
+}
+
+.favorite-btn-stack:hover .remove-btn {
+  opacity: 1;
+}
+
+.favorite-btn-stack:hover .added-btn {
+  opacity: 0;
+}
+
 .hero-avatar,
 .skins-list img {
   display: block;

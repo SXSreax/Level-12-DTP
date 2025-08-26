@@ -28,9 +28,16 @@
     <p style="text-align: center">{{ hero_description }}</p>
 
     <!-- Favorite button goes here, right under the description -->
-    <div style="margin: 20px 0">
+    <div class="favorite-btn-stack" style="margin: 20px 0">
       {% if is_favorite %}
-      <button class="favorite-btn added" disabled>ADDED</button>
+      <form
+        method="POST"
+        action="{{ url_for('favorite.remove_favorite', hero_id=hero_id) }}"
+        style="display: inline-block"
+      >
+        <button type="submit" class="favorite-btn remove-btn">REMOVE</button>
+      </form>
+      <button class="favorite-btn added-btn" disabled>ADDED</button>
       {% else %}
       <form
         method="POST"
