@@ -20,7 +20,7 @@ def hero(id):
         hero_avatar = hero_details[1]
         hero_description = hero_details[2]
     else:
-        return "Hero not found", 404
+        return render_template('404.html'), 404
 
     # Fetch abilities
     cursor.execute("SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id,))

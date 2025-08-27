@@ -41,6 +41,10 @@ def compare_result(id1, id2):
         cursor.execute("SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id2,))
         h2_skins = cursor.fetchall()
 
+    # If either hero is missing, show error page
+    if h1 is None or h2 is None:
+        return render_template('404.html', message="One or both heroes not found!"), 404
+
     hero1 = {
         "name": h1['name'], "image_url": h1['image_url'], "description": h1['description'],
         "abilities": h1_abilities, "skins": h1_skins
