@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-import sqlite3
+from flask import Flask
+
 from routes.home import home_bp
 from routes.heroes import heroes_bp
 from routes.hero import hero_bp
@@ -14,31 +14,26 @@ from routes.context_processors import inject_profile_image
 
 # Initialize the Flask application
 app = Flask(__name__)
-app.secret_key = '666'  # Add this line (use a strong, random value in production)
+app.secret_key = '666'  # Use a strong, random value in production
 
-# routes for the website
+# Register blueprints
 app.register_blueprint(home_bp)
-
 app.register_blueprint(heroes_bp)
-
 app.register_blueprint(hero_bp)
-
 app.register_blueprint(compare_bp)
-
 app.register_blueprint(login_bp)
-
 app.register_blueprint(sign_up_bp)
-
 app.register_blueprint(favorite_bp)
-
 app.register_blueprint(chat_bp)
-
 app.register_blueprint(error_bp)
-
 app.register_blueprint(user_bp)
 
+# Register context processor
 app.context_processor(inject_profile_image)
 
-if __name__ == '__main__': # Run the Flask app
-    # app.run(debug=True)
-    app.run(host='0.0.0.0', port=8000, debug=True)
+if __name__ == '__main__':
+    app.run(
+        host='0.0.0.0',
+        port=8000,
+        debug=True
+    )

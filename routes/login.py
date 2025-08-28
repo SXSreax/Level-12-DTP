@@ -1,16 +1,26 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import (
+    Blueprint,
+    render_template,
+    request, redirect,
+    url_for,
+    flash,
+    session
+)
 import sqlite3
-import hashlib
 import werkzeug.security
 
 login_bp = Blueprint('login', __name__)
 
-def get_db(): # getting the database connection
+
+# getting the database connection
+def get_db():
     conn = sqlite3.connect('databases/Heroes.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-@login_bp.route('/login', methods=['GET', 'POST'])  #page for user login, including a form for entering username and password
+
+# page for user login, including a form for entering username and password
+@login_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -20,7 +30,9 @@ def login():
         cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
         user = cursor.fetchone()
         db.close()
-        if user and werkzeug.security.check_password_hash(user['password'], password):
+        if user and werkzeug.security.check_password_hash(
+            user['password'], password
+        ):
             session['user_id'] = user['id']
             session['username'] = user['username']
             flash('Login successful!')
@@ -29,6 +41,7 @@ def login():
             flash('Invalid username or password.')
             return redirect(url_for('login.login'))
     return render_template('login.html')
+
 
 @login_bp.route('/logout')
 def logout():
