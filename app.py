@@ -1,20 +1,20 @@
 from flask import Flask
 
-from routes.home import home_bp
-from routes.heroes import heroes_bp
-from routes.hero import hero_bp
-from routes.compare import compare_bp
-from routes.login import login_bp
-from routes.signup import sign_up_bp
-from routes.favorite import favorite_bp
-from routes.chat import chat_bp
-from routes.error_handlers import error_bp
-from routes.user import user_bp
-from routes.context_processors import inject_profile_image
+from routes.routes.home import home_bp
+from routes.routes.heroes import heroes_bp
+from routes.routes.hero import hero_bp
+from routes.routes.compare import compare_bp
+from routes.routes.login import login_bp
+from routes.routes.signup import sign_up_bp
+from routes.routes.favorite import favorite_bp
+from routes.components.chat import chat_bp
+from routes.routes.error_handlers import error_bp
+from routes.routes.user import user_bp
+from routes.components.context_processors import inject_profile_image
 
 # Initialize the Flask application
 app = Flask(__name__)
-app.secret_key = '666'  # Use a strong, random value in production
+app.secret_key = 'hahahahaha'
 
 # Register blueprints
 app.register_blueprint(home_bp)
