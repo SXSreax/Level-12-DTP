@@ -6,8 +6,10 @@ compare_bp = Blueprint('compare', __name__)
 
 def get_db():
     """
-    Return a connection to the Heroes.db SQLite database with row access by column name.
-    This ensures consistent database access and easier row handling throughout the module.
+    Return a connection to the Heroes.db SQLite database
+    with row access by column name.
+    This ensures consistent database access
+    and easier row handling throughout the module.
     """
     conn = sqlite3.connect('databases/Heroes.db')
     conn.row_factory = sqlite3.Row
@@ -25,8 +27,10 @@ def compare_select():
 
     Processing:
         - On GET: Fetch all heroes for selection.
-        - On POST: If two heroes are selected, redirect to the comparison result page.
-          Redirecting after POST avoids duplicate form submissions and keeps URLs meaningful.
+        - On POST: If two heroes are selected,
+        redirect to the comparison result page.
+          Redirecting after POST avoids duplicate form submissions
+          and keeps URLs meaningful.
 
     Outputs:
         - Renders the hero selection form (GET)
@@ -68,29 +72,35 @@ def compare_result(id1, id2):
         cursor = db.cursor()
         # Gather all relevant data for hero 1
         cursor.execute(
-            "SELECT name, image_url, description FROM Hero WHERE id = ?", (id1,)
+            "SELECT name, image_url, description FROM Hero WHERE id = ?",
+            (id1,)
         )
         h1 = cursor.fetchone()
         cursor.execute(
-            "SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id1,)
+            "SELECT ability_name, description FROM Abilities WHERE hero_id= ?",
+            (id1,)
         )
         h1_abilities = cursor.fetchall()
         cursor.execute(
-            "SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id1,)
+            "SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?",
+            (id1,)
         )
         h1_skins = cursor.fetchall()
 
         # Gather all relevant data for hero 2
         cursor.execute(
-            "SELECT name, image_url, description FROM Hero WHERE id = ?", (id2,)
+            "SELECT name, image_url, description FROM Hero WHERE id = ?",
+            (id2,)
         )
         h2 = cursor.fetchone()
         cursor.execute(
-            "SELECT ability_name, description FROM Abilities WHERE hero_id = ?", (id2,)
+            "SELECT ability_name, description FROM Abilities WHERE hero_id= ?",
+            (id2,)
         )
         h2_abilities = cursor.fetchall()
         cursor.execute(
-            "SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?", (id2,)
+            "SELECT skin_name, skin_image_url FROM Skins WHERE hero_id = ?",
+            (id2,)
         )
         h2_skins = cursor.fetchall()
 

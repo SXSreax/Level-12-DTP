@@ -1,15 +1,15 @@
 from flask import Flask
 
-from routes.routes.home import home_bp
-from routes.routes.heroes import heroes_bp
-from routes.routes.hero import hero_bp
-from routes.routes.compare import compare_bp
-from routes.routes.login import login_bp
-from routes.routes.signup import sign_up_bp
-from routes.routes.favorite import favorite_bp
+from routes.pages.home import home_bp
+from routes.pages.heroes import heroes_bp
+from routes.pages.hero import hero_bp
+from routes.pages.compare import compare_bp
+from routes.pages.login import login_bp
+from routes.pages.signup import sign_up_bp
+from routes.pages.favorite import favorite_bp
 from routes.components.chat import chat_bp
-from routes.routes.error_handlers import error_bp
-from routes.routes.user import user_bp
+from routes.pages.error_handlers import error_bp
+from routes.pages.user import user_bp
 from routes.components.context_processors import inject_profile_image
 
 # Initialize the Flask application

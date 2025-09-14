@@ -12,6 +12,8 @@ sign_up_bp = Blueprint('signup', __name__)
 
 
 def get_db():
+    # Creates a database connection with row access by column name
+    # for easier data handling
     conn = sqlite3.connect('databases/Heroes.db')
     conn.row_factory = sqlite3.Row
     return conn
@@ -19,12 +21,31 @@ def get_db():
 
 @sign_up_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """
+    Handles user registration.
+
+    Inputs:
+        - POST request with 'username', 'email', and 'password'
+        from the signup form.
+
+    Processing:
+        - Validates username, email, and password for format and uniqueness.
+        - Hashes the password for secure storage.
+        - Inserts new user into the database if validation passes.
+        - Provides feedback via flash messages.
+
+    Outputs:
+        - Redirects to login page on successful signup.
+        - Redirects back to signup page with error message on failure.
+        - Renders signup page for GET requests.
+    """
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
 
-        # Username: at least 2 letters or numbers, only letters and numbers
+        # Validates username for minimum length and allowed characters
+        # prevent invalid accounts
         if len(username) < 2 or not username.isalnum():
             flash(
                 ('Username must be at least 2 letters or numbers, '
@@ -32,7 +53,7 @@ def signup():
             )
             return redirect(url_for('signup.signup'))
 
-        # Email: must contain @ before .
+        # Checks email format to reduce user errors and ensure contactability
         if (
             '@' not in email or
             '.' not in email or
@@ -41,8 +62,8 @@ def signup():
             flash('Email must contain "@" before "."')
             return redirect(url_for('signup.signup'))
 
-        # Password: at least 8 chars, must contain both letters and numbers,
-        # only letters and numbers
+        # Validates password for strength
+        # and allowed characters to improve security
         has_min_length = len(password) >= 8
         is_alphanumeric = password.isalnum()
         has_letter = any(c.isalpha() for c in password)
@@ -59,10 +80,12 @@ def signup():
             )
             return redirect(url_for('signup.signup'))
 
+        # Hashes the password before storing to protect user credentials
         hashed_pw = werkzeug.security.generate_password_hash(password)
         user_id = str(uuid.uuid4())
         db = get_db()
         cursor = db.cursor()
+        # Checks for existing username or email to prevent duplicate accounts
         cursor.execute(
             "SELECT * FROM users WHERE username = ? OR email = ?",
             (username, email)
@@ -70,6 +93,7 @@ def signup():
         if cursor.fetchone():
             flash('Username or email already exists.')
             return redirect(url_for('signup.signup'))
+        # Inserts the new user into the database after passing all checks
         cursor.execute(
             "INSERT INTO users (id, username, email, password) "
             "VALUES (?, ?, ?, ?)",
@@ -79,4 +103,5 @@ def signup():
         db.close()
         flash('Sign up successful! Please log in.')
         return redirect(url_for('login.login'))
+    # Renders the signup form for GET requests
     return render_template('pages/signup.html')

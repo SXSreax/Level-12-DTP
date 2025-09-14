@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Oops! Something went wrong</title>
+{% extends "components/base.html" %}
+{% block title %}Error{% endblock %}
+{% block head %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages/404.css') }}"
+    />
+    {% endblock %}
   </head>
   <body>
-    <h1>We're sorry!</h1>
-    <p>An unexpected error occurred. Please try again later.</p>
-  </body>
-</html>
+    {% block content %}
+    <div class="notfound-container">
+      <h1>Oops! Something went wrong</h1>
+      <p>
+        {% if message %} {{ message }} {% else %} An unexpected error occurred.
+        Please try again later. {% endif %}
+      </p>
+      <a href="{{ url_for('home.home') }}" class="notfound-home-btn"
+        >Return Home</a
+      >
+    </div>
+    {% endblock %}
+
