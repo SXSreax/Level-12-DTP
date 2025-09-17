@@ -1,10 +1,10 @@
 import os
 from flask import request, jsonify, Blueprint
-from openai import OpenAI, APIError
+from openai import OpenAI, APIError, AuthenticationError, RateLimitError    
 from dotenv import load_dotenv
 
 # Loads environment variables for API keys and configuration
-load_dotenv()
+load_dotenv(".secrets")
 
 chat_bp = Blueprint('chat', __name__)
 
@@ -18,6 +18,7 @@ client = OpenAI(
 model = "openai/gpt-4.1"
 
 print(os.getenv("API_KEY"))
+
 
 @chat_bp.route('/chat', methods=['POST'])
 def ai_chat():
