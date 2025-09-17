@@ -10,11 +10,14 @@ chat_bp = Blueprint('chat', __name__)
 
 # Sets up the OpenAI client with a custom endpoint for model inference
 endpoint = "https://models.github.ai/inference"
+
 client = OpenAI(
     base_url=endpoint,
-    api_key=os.getenv("OPENAI_API_KEY")
+    api_key=os.getenv("API_KEY")
 )
+model = "openai/gpt-4.1"
 
+print(os.getenv("API_KEY"))
 
 @chat_bp.route('/chat', methods=['POST'])
 def ai_chat():
@@ -53,14 +56,19 @@ def ai_chat():
         # for a contextual response
         response = client.chat.completions.create(
             messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message},
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user", 
+                    "content": user_message
+                },
             ],
-            model="openai/gpt-5-chat",
-            temperature=0.7,
-            max_tokens=1024,
+            model=model
         )
         ai_response = response.choices[0].message.content
+        print(f"AI Response: {ai_response}")
         return jsonify({'message': ai_response})
     except APIError as e:
         # Handles known API errors to inform the user about service issues
