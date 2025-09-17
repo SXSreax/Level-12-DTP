@@ -1,6 +1,6 @@
 import os
 from flask import request, jsonify, Blueprint
-from openai import OpenAI, APIError, AuthenticationError, RateLimitError    
+from openai import OpenAI, APIError, AuthenticationError, RateLimitError
 from dotenv import load_dotenv
 
 # Loads environment variables for API keys and configuration
@@ -62,7 +62,7 @@ def ai_chat():
                     "content": system_prompt
                 },
                 {
-                    "role": "user", 
+                    "role": "user",
                     "content": user_message
                 },
             ],
