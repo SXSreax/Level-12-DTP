@@ -2,12 +2,12 @@
 %} {% block head %}
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='css/pages/compare_select.css') }}"
+  href="{{ url_for('static', filename='css/pages/common.css') }}"
 />
 {% endblock %} {% block content %}
-<div class="compare-container">
+<div class="container">
   <h1>Compare Heroes</h1>
-  <form method="POST" class="compare-form">
+  <form method="POST" class="actions">
     <div class="compare-select-box">
       <select name="hero1" required>
         <option value="" disabled selected>Select Hero 1</option>
@@ -16,9 +16,7 @@
         {% endfor %}
       </select>
     </div>
-    <div class="compare-btn-box">
-      <button type="submit" class="compare-btn">Compare</button>
-    </div>
+    <button type="submit" class="btn">Compare</button>
     <div class="compare-select-box">
       <select name="hero2" required>
         <option value="" disabled selected>Select Hero 2</option>

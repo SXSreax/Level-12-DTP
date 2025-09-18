@@ -17,16 +17,16 @@
     {% block head %}
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/pages/favorite.css') }}"
+      href="{{ url_for('static', filename='css/pages/common.css') }}"
     />
     {% endblock %}
   </head>
   <body>
     {% extends "components/base.html" %} {% block title %}Your Favorites{%
     endblock %} {% block content %}
-    <div class="favorites-container">
+    <div class="container">
       <h1>Your Favorite Heroes</h1>
-      <div class="heroes-flex">
+      <div class="actions">
         {% if favorite_heroes %} {% for hero in favorite_heroes %}
         <a href="{{ url_for('hero.hero', id=hero[0]) }}" class="hero-link">
           <div class="hero-card">

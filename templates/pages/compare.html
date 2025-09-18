@@ -4,10 +4,10 @@
 <head>
   <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='css/pages/compare.css') }}"
+    href="{{ url_for('static', filename='css/pages/common.css') }}"
   />
 </head>
-<div class="compare-container">
+<div class="container">
   <h1>Compare Heroes</h1>
   <div class="compare-flex">
     <!-- Hero 1 -->
@@ -16,7 +16,7 @@
       <img
         src="{{ hero1.image_url }}"
         alt="{{ hero1.name }} Avatar"
-        class="compare-avatar"
+        class="hero-card"
       />
       <p class="compare-desc">{{ hero1.description }}</p>
       <h3>Abilities</h3>
@@ -41,7 +41,7 @@
       <img
         src="{{ hero2.image_url }}"
         alt="{{ hero2.name }} Avatar"
-        class="compare-avatar"
+        class="hero-card"
       />
       <p class="compare-desc">{{ hero2.description }}</p>
       <h3>Abilities</h3>

@@ -119,41 +119,46 @@
       </div>
     </div>
     <script>
-      // Store chat history in localStorage so it persists across page reloads and open/close
-      function saveChatHistory() {
-        localStorage.setItem(
-          "aiChatHistory",
-          document.getElementById("ai-chat-messages").innerHTML
-        );
-      }
-      function loadChatHistory() {
-        const saved = localStorage.getItem("aiChatHistory");
-        if (saved) {
-          document.getElementById("ai-chat-messages").innerHTML = saved;
-        }
-      }
-
+      // Expands the AI chat window when the minimized icon is clicked,
+      // so users can start or continue a conversation without losing chat history
       function expandChat() {
         document.getElementById("ai-chat-minimized").style.display = "none";
         document.getElementById("ai-chat-expanded").style.display = "flex";
         loadChatHistory();
         document.getElementById("ai-chat-input").focus();
-        // Scroll to bottom if there is history
+        // Scrolls to the latest message for better user experience
         const messagesContainer = document.getElementById("ai-chat-messages");
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        updateAiUsage();
       }
+
+      // Minimizes the AI chat window, keeping the chat history intact,
+      // so users can quickly hide the chat without losing their conversation
+      function minimizeChat() {
+        document.getElementById("ai-chat-expanded").style.display = "none";
+        document.getElementById("ai-chat-minimized").style.display = "flex";
+        saveChatHistory();
+      }
+
+      // Closes the AI chat window and preserves chat history,
+      // allowing users to reopen the chat and continue where they left off
       function closeChat() {
         document.getElementById("ai-chat-expanded").style.display = "none";
         document.getElementById("ai-chat-minimized").style.display = "flex";
         saveChatHistory();
-        // Do NOT clear messages, so history is preserved
       }
+
+      // Updates the character count display as the user types,
+      // providing immediate feedback to help users stay within the limit
       function updateAiCharCount() {
         const input = document.getElementById("ai-chat-input");
         const count = input.value.length;
         document.getElementById("ai-chat-char-count").textContent =
           count + "/100";
       }
+
+      // Sends the user's message to the backend and displays the AI's response,
+      // so users can interact with the AI and see their conversation in real time
       function sendMessage(event) {
         event.preventDefault();
         const input = document.getElementById("ai-chat-input");
@@ -162,11 +167,13 @@
 
         if (!userMsg) return;
 
+        // Shows the user's message in the chat window for context
         messagesContainer.innerHTML += `<div><b>You:</b> ${userMsg}</div>`;
         input.value = "";
         updateAiCharCount();
         input.disabled = true;
 
+        // Shows a loading indicator while waiting for the AI's response
         const loadingId = `loading-${Date.now()}`;
         messagesContainer.innerHTML += `<div id="${loadingId}"><b>AI:</b> <i>Thinking...</i></div>`;
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -186,7 +193,7 @@
                 "<i>Sorry, an error occurred. Please try again.</i>"
               }`;
             }
-            // Show rate limit info if available
+            // Updates the usage counter to inform users about their remaining quota
             if (data.ratelimit_remaining && data.ratelimit_limit) {
               document.getElementById(
                 "ai-chat-usage"
@@ -208,16 +215,46 @@
           .finally(() => {
             input.disabled = false;
             input.focus();
-            // No need to updateAiUsage() here, handled above
           });
       }
+
+      // Loads chat history from localStorage so users can continue their conversation
+      function loadChatHistory() {
+        const saved = localStorage.getItem("aiChatHistory");
+        if (saved) {
+          document.getElementById("ai-chat-messages").innerHTML = saved;
+        }
+      }
+
+      // Saves chat history to localStorage to persist conversations across page reloads
+      function saveChatHistory() {
+        localStorage.setItem(
+          "aiChatHistory",
+          document.getElementById("ai-chat-messages").innerHTML
+        );
+      }
+
+      // Updates the usage counter by fetching from the backend,
+      // so users are aware of their remaining API quota
+      function updateAiUsage() {
+        fetch("/chat_usage")
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById(
+              "ai-chat-usage"
+            ).textContent = `(Usage: ${data.count}/${data.limit})`;
+          });
+      }
+
+      // Allows keyboard users to open the chat with Enter or Space for accessibility
       document
         .getElementById("ai-chat-minimized")
         .addEventListener("keydown", function (e) {
           if (e.key === "Enter" || e.key === " ") expandChat();
         });
 
-      // Load chat history on page load if chat is already open
+      // Loads chat history on page load if chat is already open,
+      // so users don't lose their conversation when navigating the site
       window.addEventListener("DOMContentLoaded", function () {
         loadChatHistory();
       });

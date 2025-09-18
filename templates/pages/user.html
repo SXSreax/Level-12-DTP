@@ -2,7 +2,7 @@
 block head %}
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='css/pages/user.css') }}"
+  href="{{ url_for('static', filename='css/pages/common.css') }}"
 />
 <link
   rel="stylesheet"
@@ -17,7 +17,7 @@ get_flashed_messages(with_categories=true) %} {% if messages %}
 </div>
 {% endif %} {% endwith %}
 
-<div class="user-container">
+<div class="container">
   <div class="user-details">
     <h1>User Profile</h1>
     <form
@@ -51,7 +51,7 @@ get_flashed_messages(with_categories=true) %} {% if messages %}
         />
       </div>
 
-      <div class="form-group user-input-wrapper">
+      <div class="form-group input-wrapper">
         <label for="username">Username:</label>
         <input
           type="text"
@@ -69,7 +69,7 @@ get_flashed_messages(with_categories=true) %} {% if messages %}
           >{{ username|length if username else 0 }}/50</span
         >
       </div>
-      <div class="form-group user-input-wrapper">
+      <div class="form-group input-wrapper">
         <label for="email">Email:</label>
         <input
           type="email"
@@ -87,7 +87,7 @@ get_flashed_messages(with_categories=true) %} {% if messages %}
           >{{ email|length if email else 0 }}/50</span
         >
       </div>
-      <div class="form-group user-input-wrapper">
+      <div class="form-group input-wrapper">
         <label for="old_password">Current Password:</label>
         <input
           type="password"
@@ -104,7 +104,7 @@ get_flashed_messages(with_categories=true) %} {% if messages %}
           >0/50</span
         >
       </div>
-      <div class="form-group user-input-wrapper">
+      <div class="form-group input-wrapper">
         <label for="new_password">New Password:</label>
         <input
           type="password"

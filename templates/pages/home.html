@@ -3,25 +3,21 @@ Home{% endblock %} {% block content %}
 <!-- link CSS file for home -->
 <head>
   <link
-    href="{{ url_for('static', filename='css/pages/home.css') }}"
+    href="{{ url_for('static', filename='css/pages/common.css') }}"
     rel="stylesheet"
   />
 </head>
-<div class="home-container">
+<div class="container">
   <h1>Welcome to Marvel Rival Website!</h1>
   <p class="subtitle">
     Dive into the world of Marvel Rivals!<br />
     Explore all heroes, compare their powers, and discover every skin.
   </p>
-  <div class="home-actions">
-    <a href="{{ url_for('heroes.heroes') }}" class="home-btn"
-      >Browse All Heroes</a
-    >
-    <a href="{{ url_for('favorite.favorite') }}" class="home-btn"
-      >Your Favorites</a
-    >
-    <a href="{{ url_for('login.login') }}" class="home-btn">Login</a>
-    <a href="{{ url_for('signup.signup') }}" class="home-btn">Sign Up</a>
+  <div class="actions">
+    <a href="{{ url_for('heroes.heroes') }}" class="btn">All Heroes</a>
+    <a href="{{ url_for('favorite.favorite') }}" class="btn">Favorites</a>
+    <a href="{{ url_for('login.login') }}" class="btn">Login</a>
+    <a href="{{ url_for('signup.signup') }}" class="btn">Sign Up</a>
   </div>
 </div>
 {% endblock %}

@@ -16,40 +16,39 @@
     <!-- Linking CSS file for heroes -->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/pages/heroes.css') }}"
+      href="{{ url_for('static', filename='css/pages/common.css') }}"
     />
   </head>
   <body>
     {% extends "components/base.html" %}
     {% block title %}All Heroes{% endblock %}
     {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/heroes.css') }}">
     {% endblock %}
-    {% block content %}
+    {% block content %} 
     <h1>All Heroes</h1>
-    <form method="get" class="heroes-search-form">
-      <div class="search-input-wrapper">
+    <form method="get" class="actions">
+      <div class="input-wrapper">
         <input
           type="text"
           name="search"
           placeholder="Search heroes..."
           value="{{ search_query }}"
           maxlength="50"
-          class="search-input"
-          id="search-input"
+          class="input"
+          id="input"
           oninput="document.getElementById('search-char-count').textContent = this.value.length + '/50';"
         />
         <span id="search-char-count" class="char-count">{{ search_query|length if search_query else 0 }}/50</span>
       </div>
-      <select name="types" class="types-select">
+      <select name="types" class="select">
         <option value="">All Types</option>
         {% for t in types %}
         <option value="{{ t }}" {% if filter_type == t %}selected{% endif %}>{{ t }}</option>
         {% endfor %}
       </select>
-      <button type="submit" class="filter-btn">Filter</button>
+      <button type="submit" class="btn">Filter</button>
     </form>
-    <div class="heroes-flex">
+    <div class="actions">
       {% for hero in heroes %}
       <a href="{{ url_for('hero.hero', id=hero['id']) }}" style="text-decoration: none">
         <div class="hero-card">

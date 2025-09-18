@@ -7,10 +7,14 @@
 {% endblock %} {% block content %}
 <div class="notfound-container">
   <h1>404 - Page Not Found</h1>
+  <!-- Shows a custom message if provided, 
+       so the user gets more context about the error -->
   <p>
     {% if message %} {{ message }} {% else %} Oops! The page you’re looking for
     doesn’t exist in the Marvel Rival universe. {% endif %}
   </p>
+  <!-- Provides a clear way for users to return to the home page,
+       helping them recover from the error and continue browsing -->
   <a href="{{ url_for('home.home') }}" class="notfound-home-btn">Return Home</a>
 </div>
 {% endblock %}
