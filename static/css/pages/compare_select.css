@@ -20,9 +20,9 @@
 .compare-form {
   display: flex;
   justify-content: center;
-  gap: 40px; /* reduced gap for better centering */
+  gap: 40px;
   margin-top: 40px;
-  align-items: center; /* vertically center items */
+  align-items: center;
 }
 
 .compare-select-box {

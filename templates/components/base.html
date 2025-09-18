@@ -52,40 +52,107 @@
 
     <!-- AI Chat Widget -->
     <div id="ai-chat-widget">
-      <div id="ai-chat-minimized" onclick="expandChat()">
+      <div
+        id="ai-chat-minimized"
+        onclick="expandChat()"
+        tabindex="0"
+        aria-label="Open AI Chat"
+        style="cursor: pointer"
+      >
         <span>💬</span>
       </div>
-      <div id="ai-chat-expanded" style="display: none">
-        <div id="ai-chat-header">
-          <span>AI Chat</span>
-          <button onclick="minimizeChat()">_</button>
-          <button onclick="closeChat()">×</button>
+      <div id="ai-chat-expanded" style="display: none; flex-direction: column">
+        <div
+          id="ai-chat-header"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <span>AI Chat <span id="ai-chat-usage"></span></span>
+          <div>
+            <!-- Only keep the close (×) button -->
+            <button type="button" onclick="closeChat()" aria-label="Close chat">
+              ×
+            </button>
+          </div>
         </div>
-        <div id="ai-chat-messages"></div>
-        <form id="ai-chat-form" onsubmit="sendMessage(event)">
-          <input
-            type="text"
-            id="ai-chat-input"
-            placeholder="Ask me anything..."
-            autocomplete="off"
-            required
-          />
-          <button type="submit">Send</button>
+        <div
+          id="ai-chat-messages"
+          style="
+            flex: 1 1 auto;
+            overflow-y: auto;
+            max-height: 250px;
+            margin-bottom: 8px;
+            padding: 8px;
+          "
+        ></div>
+        <form
+          id="ai-chat-form"
+          onsubmit="sendMessage(event)"
+          autocomplete="off"
+          style="display: flex"
+        >
+          <div class="ai-chat-input-wrapper">
+            <input
+              type="text"
+              id="ai-chat-input"
+              placeholder="Ask me anything..."
+              maxlength="100"
+              required
+              style="
+                flex: 1 1 auto;
+                padding: 6px;
+                border-radius: 4px;
+                border: 1px solid #bfa046;
+              "
+              aria-label="Type your message to the AI"
+              oninput="updateAiCharCount()"
+            />
+            <span id="ai-chat-char-count" class="ai-chat-char-count"
+              >0/100</span
+            >
+          </div>
+          <button type="submit" style="margin-left: 6px">Send</button>
         </form>
       </div>
     </div>
     <script>
+      // Store chat history in localStorage so it persists across page reloads and open/close
+      function saveChatHistory() {
+        localStorage.setItem(
+          "aiChatHistory",
+          document.getElementById("ai-chat-messages").innerHTML
+        );
+      }
+      function loadChatHistory() {
+        const saved = localStorage.getItem("aiChatHistory");
+        if (saved) {
+          document.getElementById("ai-chat-messages").innerHTML = saved;
+        }
+      }
+
       function expandChat() {
         document.getElementById("ai-chat-minimized").style.display = "none";
         document.getElementById("ai-chat-expanded").style.display = "flex";
-      }
-      function minimizeChat() {
-        document.getElementById("ai-chat-expanded").style.display = "none";
-        document.getElementById("ai-chat-minimized").style.display = "flex";
+        loadChatHistory();
+        document.getElementById("ai-chat-input").focus();
+        // Scroll to bottom if there is history
+        const messagesContainer = document.getElementById("ai-chat-messages");
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
       function closeChat() {
         document.getElementById("ai-chat-expanded").style.display = "none";
         document.getElementById("ai-chat-minimized").style.display = "flex";
+        saveChatHistory();
+        // Do NOT clear messages, so history is preserved
+      }
+      function updateAiCharCount() {
+        const input = document.getElementById("ai-chat-input");
+        const count = input.value.length;
+        document.getElementById("ai-chat-char-count").textContent =
+          count + "/100";
       }
       function sendMessage(event) {
         event.preventDefault();
@@ -93,46 +160,69 @@
         const messagesContainer = document.getElementById("ai-chat-messages");
         const userMsg = input.value.trim();
 
-        if (!userMsg) return; // Don't send empty messages
+        if (!userMsg) return;
 
         messagesContainer.innerHTML += `<div><b>You:</b> ${userMsg}</div>`;
         input.value = "";
-        // Show loading message
+        updateAiCharCount();
+        input.disabled = true;
+
         const loadingId = `loading-${Date.now()}`;
         messagesContainer.innerHTML += `<div id="${loadingId}"><b>AI:</b> <i>Thinking...</i></div>`;
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        saveChatHistory();
 
         fetch("/chat", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userMsg: userMsg }),
         })
-          .then((response) => {
-            if (!response.ok) {
-              // Throw an error to be caught by the .catch block
-              throw new Error(
-                `Network response was not ok, status: ${response.status}`
-              );
-            }
-            return response.json();
-          })
+          .then((response) => response.json())
           .then((data) => {
             const loadingElement = document.getElementById(loadingId);
             if (loadingElement) {
-              loadingElement.innerHTML = `<b>AI:</b> ${data.message}`;
-              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+              loadingElement.innerHTML = `<b>AI:</b> ${
+                data.message ||
+                "<i>Sorry, an error occurred. Please try again.</i>"
+              }`;
             }
+            // Show rate limit info if available
+            if (data.ratelimit_remaining && data.ratelimit_limit) {
+              document.getElementById(
+                "ai-chat-usage"
+              ).textContent = `(Usage left: ${data.ratelimit_remaining}/${data.ratelimit_limit})`;
+            } else {
+              document.getElementById("ai-chat-usage").textContent = "";
+            }
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            saveChatHistory();
           })
           .catch((error) => {
             const loadingElement = document.getElementById(loadingId);
             if (loadingElement) {
               loadingElement.innerHTML = `<b>AI:</b> <i>Sorry, an error occurred. Please try again.</i>`;
-              console.error("Error during fetch:", error);
             }
+            console.error("Error during fetch:", error);
+            saveChatHistory();
+          })
+          .finally(() => {
+            input.disabled = false;
+            input.focus();
+            // No need to updateAiUsage() here, handled above
           });
       }
+      document
+        .getElementById("ai-chat-minimized")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") expandChat();
+        });
+
+      // Load chat history on page load if chat is already open
+      window.addEventListener("DOMContentLoaded", function () {
+        loadChatHistory();
+      });
+    </script>
+    <script>
       function toggleProfileDropdown() {
         const dropdown = document.getElementById("profile-dropdown");
         dropdown.style.display =

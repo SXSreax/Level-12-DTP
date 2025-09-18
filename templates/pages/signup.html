@@ -22,19 +22,42 @@
     <div class="form-container">
       <h2>Sign Up</h2>
       <form method="POST">
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          required
-        /><br />
-        <input type="email" name="email" placeholder="Email" required /><br />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        /><br />
+        <div class="signup-input-wrapper">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+            maxlength="50"
+            id="signup-username"
+            oninput="document.getElementById('signup-username-count').textContent = this.value.length + '/50';"
+          />
+          <span id="signup-username-count" class="char-count">0/50</span>
+        </div>
+        <div class="signup-input-wrapper">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            maxlength="50"
+            id="signup-email"
+            oninput="document.getElementById('signup-email-count').textContent = this.value.length + '/50';"
+          />
+          <span id="signup-email-count" class="char-count">0/50</span>
+        </div>
+        <div class="signup-input-wrapper">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            maxlength="50"
+            id="signup-password"
+            oninput="document.getElementById('signup-password-count').textContent = this.value.length + '/50';"
+          />
+          <span id="signup-password-count" class="char-count">0/50</span>
+        </div>
         <button type="submit">Sign Up</button>
       </form>
       {% with messages = get_flashed_messages() %} {% if messages %}

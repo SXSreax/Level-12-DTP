@@ -1,67 +1,72 @@
 .form-container {
-  max-width: 350px;
+  max-width: 400px;
   margin: 60px auto;
-  background: rgba(20, 20, 20, 0.98);
+  background: #181818;
   border-radius: 16px;
-  box-shadow: 0 8px 32px #000;
+  box-shadow: 0 4px 24px #000;
   padding: 40px 30px;
-  text-align: center;
+  color: #f5c518;
+  font-family: "Open Sans", Arial, sans-serif;
 }
+
 .form-container h2 {
   font-family: "Oswald", Arial, sans-serif;
   color: #e53935;
-  margin-bottom: 18px;
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  font-size: 2em;
+  text-shadow: 2px 2px 8px #000, 0 0 10px #e53935;
 }
-.form-container input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
+
+.login-input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 18px;
   border-radius: 6px;
   border: 1px solid #bfa046;
-  background: #222;
-  color: #fff;
   font-size: 1em;
+  background: #222;
+  color: #f5c518;
+  box-sizing: border-box;
 }
-.form-container button {
+
+.login-btn {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 6px;
   background: #e53935;
   color: #fff;
-  font-family: "Oswald", Arial, sans-serif;
-  font-size: 1.1em;
-  padding: 10px 30px;
-  border-radius: 8px;
   border: none;
-  box-shadow: 0 2px 8px #000;
-  transition: background 0.2s, color 0.2s;
-  letter-spacing: 1px;
+  font-family: "Oswald", Arial, sans-serif;
   font-weight: bold;
-  outline: none;
-  margin-top: 10px;
+  font-size: 1.1em;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
-.form-container button:hover {
-  background: #bfa046;
-  color: #111;
+
+.login-btn:hover {
+  background: #f5c518;
+  color: #181818;
 }
-.form-container ul {
-  color: #e53935;
-  margin-top: 15px;
-  padding-left: 0;
-  list-style: none;
-}
+
 .no-account {
-  margin-top: 18px;
   text-align: center;
-  font-size: 1em;
+  margin-top: 18px;
+  color: #fff;
 }
 
 .signup-link {
-  color: #f5c518;
-  font-weight: bold;
-  margin-left: 6px;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.signup-link:hover {
   color: #e53935;
   text-decoration: underline;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+ul {
+  color: #e53935;
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding-left: 20px;
 }

@@ -15,7 +15,7 @@
   font-size: 2.2em;
   text-shadow: 2px 2px 8px #000, 0 0 10px #e53935;
 }
-.heroes-grid {
+.heroes-flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

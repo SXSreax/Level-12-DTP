@@ -26,7 +26,7 @@
     endblock %} {% block content %}
     <div class="favorites-container">
       <h1>Your Favorite Heroes</h1>
-      <div class="heroes-grid">
+      <div class="heroes-flex">
         {% if favorite_heroes %} {% for hero in favorite_heroes %}
         <a href="{{ url_for('hero.hero', id=hero[0]) }}" class="hero-link">
           <div class="hero-card">

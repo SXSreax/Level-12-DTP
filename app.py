@@ -8,7 +8,7 @@ from routes.pages.login import login_bp
 from routes.pages.signup import sign_up_bp
 from routes.pages.favorite import favorite_bp
 from routes.components.chat import chat_bp
-from routes.pages.error_handlers import error_bp
+from routes.components.error_handlers import error_bp
 from routes.pages.user import user_bp
 from routes.components.context_processors import inject_profile_image
 

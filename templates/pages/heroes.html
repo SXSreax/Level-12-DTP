@@ -27,15 +27,21 @@
     {% endblock %}
     {% block content %}
     <h1>All Heroes</h1>
-    <form method="get" style="text-align:center; margin-bottom: 30px;">
-      <input
-        type="text"
-        name="search"
-        placeholder="Search heroes..."
-        value="{{ search_query }}"
-        style="padding: 8px 16px; border-radius: 6px; border: 1px solid #bfa046; font-size: 1em; margin-right: 12px;"
-      />
-      <select name="types" style="padding: 8px 16px; border-radius: 6px; border: 1px solid #bfa046; font-size: 1em; margin-right: 12px;">
+    <form method="get" class="heroes-search-form">
+      <div class="search-input-wrapper">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search heroes..."
+          value="{{ search_query }}"
+          maxlength="50"
+          class="search-input"
+          id="search-input"
+          oninput="document.getElementById('search-char-count').textContent = this.value.length + '/50';"
+        />
+        <span id="search-char-count" class="char-count">{{ search_query|length if search_query else 0 }}/50</span>
+      </div>
+      <select name="types" class="types-select">
         <option value="">All Types</option>
         {% for t in types %}
         <option value="{{ t }}" {% if filter_type == t %}selected{% endif %}>{{ t }}</option>
@@ -43,7 +49,7 @@
       </select>
       <button type="submit" class="filter-btn">Filter</button>
     </form>
-    <div class="heroes-grid">
+    <div class="heroes-flex">
       {% for hero in heroes %}
       <a href="{{ url_for('hero.hero', id=hero['id']) }}" style="text-decoration: none">
         <div class="hero-card">

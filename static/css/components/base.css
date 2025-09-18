@@ -189,3 +189,29 @@ nav a:hover {
   background: #bfa046;
   color: #111;
 }
+.ai-chat-input-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.ai-chat-char-count {
+  position: absolute;
+  top: -18px;
+  right: 8px;
+  font-size: 0.95em;
+  color: #bfa046;
+  background: #181818;
+  padding: 0 4px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* AI Chat Usage Counter */
+#ai-chat-usage {
+  font-size: 0.95em;
+  color: #bfa046;
+  margin-left: 8px;
+  vertical-align: middle;
+}

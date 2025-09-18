@@ -47,3 +47,21 @@
   padding-left: 0;
   list-style: none;
 }
+.signup-input-wrapper {
+  position: relative;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.char-count {
+  position: absolute;
+  right: 6px;
+  top: -20px;
+  font-size: 0.95em;
+  color: #bfa046;
+  background: #181818;
+  padding: 0 4px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}

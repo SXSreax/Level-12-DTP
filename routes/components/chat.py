@@ -17,13 +17,11 @@ client = OpenAI(
 )
 model = "openai/gpt-4.1"
 
-print(os.getenv("API_KEY"))
-
-
 @chat_bp.route('/chat', methods=['POST'])
 def ai_chat():
     """
     Handles AI chat requests for the Marvel Rivals website.
+    Also returns rate limit info from the API provider if available.
 
     Inputs:
         - POST request with JSON containing 'userMsg' (the user's message).
@@ -69,8 +67,21 @@ def ai_chat():
             model=model
         )
         ai_response = response.choices[0].message.content
-        print(f"AI Response: {ai_response}")
-        return jsonify({'message': ai_response})
+
+        # Try to get rate limit info from the last response
+        # OpenAI's python client exposes response headers via response.response.headers
+        remaining = ""
+        limit = ""
+        if hasattr(response, "response") and hasattr(response.response, "headers"):
+            headers = response.response.headers
+            remaining = headers.get("x-ratelimit-remaining-requests", "")
+            limit = headers.get("x-ratelimit-limit-requests", "")
+
+        return jsonify({
+            'message': ai_response,
+            'ratelimit_remaining': remaining,
+            'ratelimit_limit': limit
+        })
     except APIError as e:
         # Handles known API errors to inform the user about service issues
         print(f"OpenAI API Error: {e}")
