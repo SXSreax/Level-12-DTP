@@ -8,7 +8,6 @@
   color: #f5c518;
   font-family: "Open Sans", Arial, sans-serif;
 }
-
 .form-container h2 {
   font-family: "Oswald", Arial, sans-serif;
   color: #e53935;
@@ -18,7 +17,6 @@
   font-size: 2em;
   text-shadow: 2px 2px 8px #000, 0 0 10px #e53935;
 }
-
 .login-input {
   width: 100%;
   padding: 10px 14px;
@@ -30,7 +28,22 @@
   color: #f5c518;
   box-sizing: border-box;
 }
-
+.login-input-wrapper {
+  position: relative;
+  display: block;
+}
+.char-count {
+  position: absolute;
+  top: -22px;
+  right: 4px;
+  font-size: 0.95em;
+  color: #bfa046;
+  background: #181818;
+  padding: 0 4px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
 .login-btn {
   width: 100%;
   padding: 10px 0;
@@ -45,25 +58,21 @@
   cursor: pointer;
   margin-bottom: 10px;
 }
-
 .login-btn:hover {
   background: #f5c518;
   color: #181818;
 }
-
 .no-account {
   text-align: center;
   margin-top: 18px;
   color: #fff;
 }
-
 .signup-link {
   color: #e53935;
   text-decoration: underline;
   margin-left: 6px;
   font-weight: bold;
 }
-
 ul {
   color: #e53935;
   margin-top: 10px;

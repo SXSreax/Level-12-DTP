@@ -127,3 +127,5 @@ def compare_result(id1, id2):
     }
     # Pass both hero dicts to the template for rendering the comparison
     return render_template('pages/compare.html', hero1=hero1, hero2=hero2)
+
+
